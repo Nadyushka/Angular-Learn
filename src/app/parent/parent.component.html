@@ -1,0 +1,52 @@
+<!--<div *ngIf="isLoading; else ElseBlock">Loading...</div>-->
+<div *ngIf="isLoading">Loading...</div>
+
+<!--<ng-template #ElseBlock>-->
+<ng-container *ngIf="!isLoading">
+  <h2>
+    Parent {{ name }} {{ surname }} from {{ address.city }}
+    {{ address.street }}
+  </h2>
+  <inst-child
+    [surnameProps]="surname"
+    [address]="address"
+    (sendGradeEvent)="getGrade($event)"
+    (sendInfo)="showGrade($event)"
+  ></inst-child>
+  <div>{{ math }}</div>
+  <hr />
+  <hr />
+  <div>{{ grades | json }}</div>
+  <div *ngFor="let el of grades">{{ el }}</div>
+</ng-container>
+<!--</ng-template>-->
+
+<input type="text" [(ngModel)]="inputValue" />
+<div [ngSwitch]="inputValue" class="error">
+  <div *ngSwitchCase="'1'">One</div>
+  <div *ngSwitchCase="'2'">Two</div>
+  <div *ngSwitchCase="'3'">Three</div>
+  <div *ngSwitchDefault>No value found</div>
+</div>
+
+<button
+  [ngClass]="{ default: true, active: buttonChange }"
+  (click)="onClickButton()"
+></button>
+
+<div
+  *ngFor="let fruit of fruits; odd as odd; even as even"
+  [ngClass]="{ red: odd, green: even, expensive: fruit.price > 15 }"
+>
+  <ng-container *ngIf="fruit.price > 7">
+    {{ fruit.name }} {{ fruit.price }}
+  </ng-container>
+</div>
+
+<hr />
+<hr />
+<hr />
+
+<div>{{ setValueFromService }}</div>
+<button (click)="incrementValue()">+</button>
+<button (click)="decrementValue()">-</button>
