@@ -1,0 +1,6 @@
+<div *ngFor="let todo of todos">
+  <p>{{ todo.id }} --- {{ todo.title }} --- {{ todo.addedDate }}</p>
+</div>
+<button (click)="addTodos()">+</button>
+<hr />
+<button (click)="deleteTodos()">-</button>

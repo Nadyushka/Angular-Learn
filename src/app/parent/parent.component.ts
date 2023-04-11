@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { SetValueService } from './services/set-value.service'
+import { Observable } from 'rxjs'
 
 export interface Address {
   city: string
@@ -56,13 +57,18 @@ export class ParentComponent {
     { id: 5, name: 'apple5', price: 12 },
   ]
 
-  setValueFromService = 0
+  // setValueFromService = 0
+
+  setValueFromService$ = new Observable()
 
   ngOnInit(): void {
     // this.setValueFromService = this.setValue.value
-    this.setValue.value$.subscribe(value => {
-      this.setValueFromService = value
-    })
+
+    // this.setValue.value$.subscribe(value => {
+    //   this.setValueFromService = value
+    // })
+
+    this.setValueFromService$ = this.setValue.value$
   }
 
   incrementValue() {
