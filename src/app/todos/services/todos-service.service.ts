@@ -44,15 +44,15 @@ export class TodosServiceService {
     private beautyLogger: BeautyLoggerService
   ) {}
 
+  private errorHandler(err: HttpErrorResponse) {
+    this.beautyLogger.log(err.message, 'error')
+    return EMPTY
+  }
+
   getTodos() {
     this.http
       .get<Todo[]>(`${environment.baseUrl}/todo-lists`, this.httpOptions)
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.beautyLogger.log(err.message, 'error')
-          return EMPTY
-        })
-      )
+      .pipe(catchError(this.errorHandler.bind(this)))
       .subscribe(todos => {
         this.todo$.next(todos)
       })
@@ -71,10 +71,7 @@ export class TodosServiceService {
           const stateTodos = this.todo$.getValue()
           return [newTodo, ...stateTodos]
         }),
-        catchError((err: HttpErrorResponse) => {
-          this.beautyLogger.log(err.message, 'error')
-          return EMPTY
-        })
+        catchError(this.errorHandler.bind(this))
       )
       .subscribe(todos => {
         this.todo$.next(todos)
@@ -91,10 +88,7 @@ export class TodosServiceService {
         map(() => {
           return this.todo$.getValue().filter(tl => tl.id !== todoId)
         }),
-        catchError((err: HttpErrorResponse) => {
-          this.beautyLogger.log(err.message, 'error')
-          return EMPTY
-        })
+        catchError(this.errorHandler.bind(this))
       )
       .subscribe(todos => this.todo$.next(todos))
   }
