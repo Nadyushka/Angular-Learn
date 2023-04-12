@@ -1,20 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-
-interface Todo {
-  addedDate: string
-  id: string
-  order: number
-  title: string
-}
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-interface BaseResponse<T = {}> {
-  data: T
-  message: string[]
-  fieldsError: string[]
-  resultCode: number
-}
+import { Todo, TodosServiceService } from './services/todos-service.service'
+import { Observable, Subscription } from 'rxjs'
+import { BeautyLoggerService } from './services/beauty-logger.service'
 
 @Component({
   selector: 'inst-todos',
@@ -22,56 +9,57 @@ interface BaseResponse<T = {}> {
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit {
-  todos: Todo[] = []
-  httpOptions = {
-    withCredentials: true,
-    headers: {
-      'api-key': 'dd3c66bc-c7e8-44a0-a861-e9ed3c285b89',
-    },
-  }
+  todos$!: Observable<Todo[]>
+  error = ''
+  subscription: Subscription = new Subscription()
 
-  constructor(private http: HttpClient) {}
+  constructor(private todoservice: TodosServiceService) {}
+
+  // ngOnDestroy(): void {
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe()
+  //   }
+  // }
 
   ngOnInit() {
+    this.todos$ = this.todoservice.todo$
     this.getTodos()
   }
 
   getTodos() {
-    this.http
-      .get<Todo[]>(
-        'https://social-network.samuraijs.com/api/1.1/todo-lists',
-        this.httpOptions
-      )
-      .subscribe(res => {
-        this.todos = res
-      })
+    this.todoservice.getTodos()
+    // this.subscription.add(
+    //   this.todoservice.getTodos().subscribe({
+    //     next: res => {
+    //       this.todos = res
+    //     },
+    //     error: (error: HttpErrorResponse) => {
+    //       this.error = error.message
+    //     },
+    //   })
+    // )
   }
 
   addTodos() {
     const title = 'Angular' + Math.floor(Math.random() * 100)
-    this.http
-      .post<BaseResponse<{ item: Todo }>>(
-        'https://social-network.samuraijs.com/api/1.1/todo-lists',
-        { title },
-        this.httpOptions
-      )
-      .subscribe(res => {
-        const newTodo = res.data.item
-        this.todos.unshift(newTodo)
-      })
+    this.todoservice.addTodos(title)
+    // this.subscription.add(
+    //   this.todoservice.addTodos(title).subscribe(res => {
+    //     const newTodo = res.data.item
+    //     this.todos.unshift(newTodo)
+    //   })
+    // )
   }
 
   deleteTodos() {
-    const todoId = '39d5d6d5-2c23-41bc-a681-9dfa9cca5b60'
-    this.http
-      .delete<BaseResponse>(
-        `https://social-network.samuraijs.com/api/1.1/todo-lists/${todoId}`,
-        this.httpOptions
-      )
-      .subscribe(res => {
-        if (res.resultCode === 0) {
-          this.todos = this.todos.filter(tl => tl.id !== todoId)
-        }
-      })
+    const todoId = '7d3bd523-f52e-4730-ab53-7006f687c74b'
+    this.todoservice.deleteTodos(todoId)
+    // this.subscription.add(
+    //   this.todoservice.deleteTodos(todoId).subscribe(res => {
+    //     if (res.resultCode === 0) {
+    //       this.todos = this.todos.filter(tl => tl.id !== todoId)
+    //     }
+    //   })
+    // )
   }
 }
