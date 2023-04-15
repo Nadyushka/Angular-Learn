@@ -4,7 +4,7 @@ import {
   User,
   UserServiceService,
 } from 'src/app/todos/services/users-service.service'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 
 @Component({
   selector: 'inst-users',
@@ -21,9 +21,13 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const currentPage = Number(this.route.snapshot.queryParamMap.get('page'))
-    const page = currentPage ? currentPage : 1
-    this.getUsers(page)
+    // const currentPage = Number(this.route.snapshot.queryParamMap.get('page'))
+    // const page = currentPage ? currentPage : 1
+    // this.getUsers(page)
+
+    this.route.queryParams.subscribe((params: Params) => {
+      this.getUsers(params['page'] ? params['page'] : 1)
+    })
   }
 
   getUsers(page: number) {
@@ -34,7 +38,7 @@ export class UsersComponent implements OnInit {
     const currentPage = Number(this.route.snapshot.queryParamMap.get('page'))
     const nextPage = currentPage ? currentPage + 1 : 2
     this.router
-      .navigateByUrl(`users?page=${nextPage}`)
-      .then(() => this.getUsers(nextPage))
+      //  .navigateByUrl(`users?page=${nextPage}`)
+      .navigate(['/users'], { queryParams: { page: nextPage } })
   }
 }
