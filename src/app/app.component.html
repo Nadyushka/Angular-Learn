@@ -22,4 +22,18 @@
 <!--<hr />-->
 <!--<hr />-->
 <!--<inst-parent> </inst-parent>-->
-<inst-todos></inst-todos>
+<!--<inst-todos></inst-todos>-->
+<h1>Training routes</h1>
+<nav>
+  <button
+    routerLink=""
+    routerLinkActive="activeButton"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    Home
+  </button>
+  <button routerLink="login" routerLinkActive="activeButton">Login</button>
+  <button routerLink="profile" routerLinkActive="activeButton">Profile</button>
+  <button routerLink="user" routerLinkActive="activeButton">User</button>
+</nav>
+<router-outlet></router-outlet>

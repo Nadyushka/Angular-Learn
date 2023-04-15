@@ -1,0 +1,5 @@
+<p>profile works!</p>
+<div *ngIf="profile$ | async as profile">
+  <h2>{{ profile.fullName }}</h2>
+  <h3>{{ profile.aboutMe }}</h3>
+</div>

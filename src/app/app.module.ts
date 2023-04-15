@@ -6,12 +6,34 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ParentComponent } from './parent/parent.component'
 import { ChildComponent } from './parent/child/child.component'
 import { TodosComponent } from './todos/todos.component'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'
 import { LoginComponent } from './todos/login/login/login.component'
+import { ProfileComponent } from './routes/profile/profile.component'
+import { RouterModule } from '@angular/router'
+import { AppModuleRoutingModule } from './app-module-routing.module';
+import { HomePageComponent } from './routes/home-page/home-page.component';
+import { UsersComponent } from './routes/users/users.component';
+import { PageNotFoundComponent } from './routes/page-not-found/page-not-found.component'
 
 @NgModule({
-  declarations: [AppComponent, ParentComponent, ChildComponent, TodosComponent, LoginComponent],
-  imports: [BrowserModule, FormsModule, HttpClientModule, ReactiveFormsModule],
+  declarations: [
+    AppComponent,
+    ParentComponent,
+    ChildComponent,
+    TodosComponent,
+    LoginComponent,
+    ProfileComponent,
+    HomePageComponent,
+    UsersComponent,
+    PageNotFoundComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    AppModuleRoutingModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
