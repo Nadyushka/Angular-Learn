@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import {
   ProfileResponse,
   ProfileServiceService,
@@ -16,11 +16,16 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private profileService: ProfileServiceService
   ) {}
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('userId')
     this.profile$ = this.profileService.getProfile(+userId!)
+  }
+
+  onClickHandler() {
+    this.router.navigate(['users'])
   }
 }

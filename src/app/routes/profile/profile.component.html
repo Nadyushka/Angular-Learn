@@ -3,3 +3,5 @@
   <h2>{{ profile.fullName }}</h2>
   <h3>{{ profile.aboutMe }}</h3>
 </div>
+<button (click)="onClickHandler()">back to users</button>
+<button [routerLink]="['/users']">back to users</button>
